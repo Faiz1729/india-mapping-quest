@@ -1,5 +1,5 @@
-const CACHE='imq-v1-shell';
-const SHELL=['./','./index.html','./manifest.webmanifest','./icon.svg'];
+const CACHE='imq-v2-1795345206';
+const SHELL=["./", "./index.html", "./manifest.webmanifest", "./icon.svg", "./css/app.css", "./js/core.js", "./js/main.js", "./js/mapkit.js", "./js/model.js", "./js/play.js", "./js/views.js", "./data/concepts.js", "./data/geo-rivers.js", "./data/geo-states.js", "./data/places.js", "./data/regions.js", "./data/rivers.js", "./vendor/leaflet.css", "./vendor/leaflet.js", "./vendor/images/layers-2x.png", "./vendor/images/layers.png", "./vendor/images/marker-icon-2x.png", "./vendor/images/marker-icon.png", "./vendor/images/marker-shadow.png"];
 self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(SHELL)).then(()=>self.skipWaiting())));
-self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
-self.addEventListener('fetch',e=>{const u=new URL(e.request.url);if(e.request.method!=='GET')return;e.respondWith(caches.match(e.request).then(hit=>hit||fetch(e.request).then(res=>{if(res&&res.status===200&&(u.origin===location.origin||u.hostname==='unpkg.com'||u.hostname==='cdn.jsdelivr.net')){const copy=res.clone();caches.open(CACHE).then(c=>c.put(e.request,copy)).catch(()=>{});}return res;}).catch(()=>caches.match(e.request))));});
+self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x!==CACHE).map(x=>caches.delete(x)))).then(()=>self.clients.claim())));
+self.addEventListener('fetch',e=>{if(e.request.method!=='GET')return;e.respondWith(caches.match(e.request).then(hit=>hit||fetch(e.request).then(res=>{if(res&&res.status===200&&new URL(e.request.url).origin===location.origin){const cp=res.clone();caches.open(CACHE).then(c=>c.put(e.request,cp)).catch(()=>{})}return res}).catch(()=>caches.match('./index.html'))))});
